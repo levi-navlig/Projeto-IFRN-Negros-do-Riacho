@@ -6,6 +6,7 @@ Este é um site estático completo desenvolvido em HTML, CSS e JavaScript puro p
 
 ```
 /
+├── img                 # Pasta com as imagens utilizadas no site
 ├── index.html          # Página principal com todas as seções
 ├── styles.css          # Estilos CSS responsivos
 ├── script.js           # JavaScript para interações
