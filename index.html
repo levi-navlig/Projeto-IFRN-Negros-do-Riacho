@@ -12,7 +12,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <h2>CRQ - Negros do </h2>
+                <img src="./img/Logo.png" alt="Logo Negros do Riacho" class="nav-logo-img">
+                <h2>Negros do Riacho</h2>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -45,17 +46,39 @@
         <section id="introducao" class="section active">
             <div class="container">
                 <div class="hero">
-                    <!-- SUBSTITUA ESTA IMAGEM: placeholder.jpg por uma foto real da comunidade -->
-                    <img src="./img/Nome.jpeg" alt="Foto da Comunidade" class="hero-image">
+                    <!-- Imagem da louça de barro artesanal -->
+                    <img src="./img/porquinho_conjuntopotes.jpeg" alt="Louça de Barro Artesanal" class="hero-image">
                     <div class="hero-content">
                         <h1 class="hero-title">Negros do Riacho</h1>
-                        <p class="hero-text">
-                            A Comunidade Quilombola Negros do Riacho está localizada em Currais Novos, Rio Grande do Norte. 
-                            É composta por cerca de 280 pessoas que vivem numa área de 3,6 hectares. Descendentes de 
-                            Trajano Lopes da Silva, preservam saberes tradicionais transmitidos entre gerações. Sua 
-                            economia combina agricultura de subsistência e produção de louça de barro, um trabalho 
-                            artesanal que representa identidade e cultura.
-                        </p>
+                        <div class="hero-text-container">
+                            <p class="hero-text">
+                                A Comunidade Quilombola <strong>Negros do Riacho</strong>, situada em Currais Novos, no sertão do Rio Grande do Norte, é um espaço de resistência, memória e identidade. Fundada a partir da trajetória de <strong>Trajano Lopes da Silva</strong>, ex-escravizado que se estabeleceu às margens do Riacho dos Angicos, a comunidade preserva até hoje os saberes e tradições herdados de seus antepassados. Composta por cerca de 280 pessoas, sua organização social e cultural está profundamente ligada ao território, que representa não apenas moradia, mas também história e pertencimento coletivo.
+                            </p>
+                            <p class="hero-text">
+                                Além da agricultura de subsistência, os moradores mantêm viva a tradição da <strong>louça de barro artesanal</strong>, produzida principalmente pelas mulheres, que transformam o barro em peças únicas carregadas de significado cultural. Essa prática, passada de geração em geração, não é apenas uma atividade econômica, mas um patrimônio imaterial que expressa a identidade quilombola.
+                            </p>
+                            <p class="hero-text">
+                                Visitar e conhecer os Negros do Riacho é mergulhar em uma história de luta, fé e solidariedade, onde passado e presente se encontram para fortalecer o futuro da comunidade.
+                            </p>
+                        </div>
+                        <div class="hero-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">🏺</div>
+                                <span>Louça de Barro</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🌱</div>
+                                <span>Agricultura</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">👥</div>
+                                <span>Comunidade</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">📜</div>
+                                <span>Tradição</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,27 +213,29 @@
         <section id="galeria" class="section">
             <div class="container">
                 <h2 class="section-title">Galeria de Fotos</h2>
-                <p class="gallery-intro">Em breve fotos da comunidade: espaços, pessoas, artesanato etc.</p>
+                <p class="gallery-intro">Conheça nossa comunidade através das imagens que retratam nossa cultura, tradições e artesanato.</p>
                 
                 <div class="photo-gallery">
-                    <!-- SUBSTITUA ESTAS IMAGENS: foto1.jpg, foto2.jpg, etc. por fotos reais da comunidade -->
                     <div class="photo-item">
-                        <img src="./img/Senhoras.jpeg" alt="Comunidade" class="gallery-image">
+                        <img src="./img/Senhoras.jpeg" alt="Membros da Comunidade" class="gallery-image">
                     </div>
                     <div class="photo-item">
-                        <img src="./img/Senhora.jpeg" alt="Artesanato" class="gallery-image">
+                        <img src="./img/Senhora.jpeg" alt="Artesã da Comunidade" class="gallery-image">
                     </div>
                     <div class="photo-item">
-                        <img src="./img/Logo.png" alt="Logo" class="gallery-image">
+                        <img src="./img/Nome.jpeg" alt="Identidade da Comunidade" class="gallery-image">
                     </div>
                     <div class="photo-item">
-                        <img src="./img/Nome.jpeg" alt="Comunidade Quilombola Negros do Riacho" class="gallery-image">
+                        <img src="./img/Potes1.jpeg" alt="Potes de Barro Tradicionais" class="gallery-image">
                     </div>
                     <div class="photo-item">
-                        <img src="./img/Potes1.jpeg" alt="Potes de barro" class="gallery-image">
+                        <img src="./img/Potes2.jpeg" alt="Louça de Barro Artesanal" class="gallery-image">
                     </div>
                     <div class="photo-item">
                         <img src="./img/Potes2.jpeg" alt="Potes de barro" class="gallery-image">
+                    </div>
+                    <div class="photo-item">
+                        <img src="./img/porquinho_conjuntopotes.jpeg" alt="Membros da Comunidade" class="gallery-image">
                     </div>
                 </div>
             </div>
@@ -223,6 +248,23 @@
         <img class="lightbox-content" id="lightbox-img">
         <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="./img/Logo.png" alt="Logo Negros do Riacho" class="footer-logo-img">
+                    <h3>Comunidade Quilombola<br>Negros do Riacho</h3>
+                </div>
+                <div class="footer-info">
+                    <p>Currais Novos - RN</p>
+                    <p>Preservando tradições e cultura quilombola</p>
+                    <p>© 2025 - Todos os direitos reservados</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
