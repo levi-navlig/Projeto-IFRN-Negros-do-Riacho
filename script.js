@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('.section');
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
+    const navbar = document.querySelector('.navbar');
 
     // Função para mostrar seção ativa
     function showSection(targetId) {
@@ -40,11 +41,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Menu hambúrguer para mobile
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
         navMenu.classList.toggle('active');
-        
-        // Animação do hambúrguer
         this.classList.toggle('active');
+        
+        // Prevenir scroll do body quando menu estiver aberto
+        if (navMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
     });
 
     // Fechar menu ao clicar fora dele (mobile)
@@ -52,26 +59,84 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
             navMenu.classList.remove('active');
             hamburger.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
     });
 
+    // Efeito de scroll na navbar
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+
     // Lightbox para galeria de fotos
-    const galleryImages = document.querySelectorAll('.gallery-image, .product-image');
+    const galleryImages = document.querySelectorAll('.gallery-image');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const closeBtn = document.querySelector('.close');
 
-    galleryImages.forEach(img => {
-        img.addEventListener('click', function() {
+    console.log('Imagens encontradas:', galleryImages.length);
+
+    galleryImages.forEach((img, index) => {
+        console.log(`Configurando clique para imagem ${index + 1}:`, img.src);
+        
+        img.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Imagem clicada:', this.src);
+            
             lightbox.style.display = 'block';
             lightboxImg.src = this.src;
             lightboxImg.alt = this.alt;
             lightboxCaption.textContent = this.alt;
             
+            // Garantir que a imagem seja mostrada completa no lightbox
+            lightboxImg.style.objectFit = 'contain';
+            lightboxImg.style.objectPosition = 'center';
+            lightboxImg.style.maxWidth = '95vw';
+            lightboxImg.style.maxHeight = '95vh';
+            
             // Prevenir scroll do body
             document.body.style.overflow = 'hidden';
         });
+    });
+
+    // Backup: adicionar clique também no container da foto
+    const photoItems = document.querySelectorAll('.photo-item');
+    photoItems.forEach((item, index) => {
+        const img = item.querySelector('.gallery-image');
+        if (img) {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log('Container clicado:', img.src);
+                
+                lightbox.style.display = 'block';
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxCaption.textContent = img.alt;
+                
+                // Garantir que a imagem seja mostrada completa no lightbox
+                lightboxImg.style.objectFit = 'contain';
+                lightboxImg.style.objectPosition = 'center';
+                lightboxImg.style.maxWidth = '95vw';
+                lightboxImg.style.maxHeight = '95vh';
+                
+                // Prevenir scroll do body
+                document.body.style.overflow = 'hidden';
+            });
+        }
     });
 
     // Fechar lightbox
@@ -132,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Animação de entrada para elementos da timeline
+    // Animação de entrada para elementos
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -141,19 +206,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+
+    // Observar elementos para animação
+    const animateElements = document.querySelectorAll('.timeline-item, .product-card, .photo-item, .feature-item');
+    animateElements.forEach((element, index) => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(element);
+    });
+
+    // Adicionar classe animate-in quando elemento entra na viewport
+    const animateObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
             }
         });
     }, observerOptions);
 
-    // Observar elementos da timeline
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    timelineItems.forEach(item => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(30px)';
-        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(item);
+    animateElements.forEach(element => {
+        animateObserver.observe(element);
     });
 
     // Smooth scroll para links internos
@@ -171,13 +249,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Efeito parallax sutil para imagens hero
-    window.addEventListener('scroll', function() {
+    let ticking = false;
+    function updateParallax() {
         const scrolled = window.pageYOffset;
         const heroImage = document.querySelector('.hero-image');
         
-        if (heroImage) {
-            const rate = scrolled * -0.5;
+        if (heroImage && scrolled < window.innerHeight) {
+            const rate = scrolled * -0.3;
             heroImage.style.transform = `translateY(${rate}px)`;
+        }
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
         }
     });
 
@@ -232,6 +319,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Adicionar classe de carregamento completo
     document.body.classList.add('loaded');
+
+    // Micro-interações simplificadas
+    const interactiveElements = document.querySelectorAll('.product-card, .photo-item, .feature-item');
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Efeito simples de fade-in para o título
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        heroTitle.style.opacity = '0';
+        heroTitle.style.transform = 'translateY(20px)';
+        heroTitle.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        
+        setTimeout(() => {
+            heroTitle.style.opacity = '1';
+            heroTitle.style.transform = 'translateY(0)';
+        }, 300);
+    }
+
+    // Efeitos de clique simplificados
+    const clickableElements = document.querySelectorAll('.product-card, .photo-item');
+    clickableElements.forEach(element => {
+        element.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
 });
 
 // Função para criar placeholders de imagem mais visuais
