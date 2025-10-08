@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             showSection(targetId);
+
+            // Restaurar scroll do body ao clicar em qualquer link do menu
+            document.body.classList.remove('no-scroll');
         });
     });
 
@@ -48,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Prevenir scroll do body quando menu estiver aberto
         if (navMenu.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('no-scroll');
         } else {
-            document.body.style.overflow = 'auto';
+            document.body.classList.remove('no-scroll');
         }
     });
 
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
             navMenu.classList.remove('active');
             hamburger.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            document.body.classList.remove('no-scroll');
         }
     });
 
@@ -107,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lightboxImg.style.maxHeight = '95vh';
             
             // Prevenir scroll do body
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('no-scroll');
         });
     });
 
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 lightboxImg.style.maxHeight = '95vh';
                 
                 // Prevenir scroll do body
-                document.body.style.overflow = 'hidden';
+                document.body.classList.add('no-scroll');
             });
         }
     });
@@ -142,14 +145,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fechar lightbox
     closeBtn.addEventListener('click', function() {
         lightbox.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        document.body.classList.remove('no-scroll');
     });
 
     // Fechar lightbox clicando fora da imagem
     lightbox.addEventListener('click', function(e) {
         if (e.target === lightbox) {
             lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.classList.remove('no-scroll');
         }
     });
 
@@ -157,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && lightbox.style.display === 'block') {
             lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.classList.remove('no-scroll');
         }
     });
 
@@ -425,3 +428,11 @@ function addInteractiveEffects() {
 
 // Adicionar efeitos interativos após carregamento
 setTimeout(addInteractiveEffects, 1000);
+
+// Garantir que o scroll sempre volte caso algo falhe
+window.addEventListener('resize', () => {
+  document.body.classList.remove('no-scroll');
+});
+window.addEventListener('orientationchange', () => {
+  document.body.classList.remove('no-scroll');
+});

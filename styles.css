@@ -1283,3 +1283,9 @@ img[src*="placeholder"]::before {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+body.no-scroll {
+  overflow: hidden !important;
+  height: 100%;
+  touch-action: none;
+}
